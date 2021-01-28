@@ -1,0 +1,74 @@
+{% extends "scheduler/layout.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+    
+    {% if patients%}
+    <div class="container mt-4">
+        <!-- <a href="{% url 'patient_create' %}" class="mb-4 btn btn-large btn-outline-primary">Book new appointment</a> -->
+        <button id="apt-btn" class="mb-4 btn btn-large btn-outline-success">Book new appointment</button>
+
+        <div class="patient-form-container m-4 hide">
+            <form id="patientForm" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{patientForm|crispy}}
+                </div>
+            </form>
+            <div class="form-group">
+                <button id="book-btn" class="btn btn-primary">Book</button>
+            </div>
+        </div>
+
+        <table class="table table-striped table-hover table-primary">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Appointment Date</th>
+                <th scope="col">Appointment Time</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+                
+              </tr>
+            </thead>
+            <tbody id="patient-table">
+            </tbody>
+        <!-- {% for patient in patients%}
+                  <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{patient.name}}</td>
+                    <td>{{patient.appointment_time}}</td>
+                    <td>{{patient.appointment_date}}</td>
+                  </tr>
+        {% endfor %} -->
+        </table>
+        {% else %}
+        <p>You have no patients</p>
+        {% endif %}
+    </div>
+    <div id="modal" class="hide">
+        <div class="modal-container">
+            <div class="form-group">
+                <input id="edit-name" type="text">
+            </div>
+            <div class="form-group">
+                <input id="edit-date" type="date">
+            </div>
+            <div class="form-group">
+                <input id="edit-time" type="time">
+            </div>
+            <div class="buttons">
+                <button id="saveModal" data-num="" class="btn btn-sm btn-primary">Save</button>
+                <button id="closeModal" class="btn btn-sm btn-secondary">Cancel</button>
+            </div>
+        </div>
+            
+    </div>
+
+    {% block script %}
+    <script src="{% static 'scheduler/patients.js' %}"></script>
+    {% endblock %}
+    
+{% endblock content %}

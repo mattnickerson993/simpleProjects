@@ -1,0 +1,17 @@
+{% extends "scheduler/layout.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    
+<div class="patient-form-container m-4">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            {{form|crispy}}
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </form>
+</div>
+    
+{% endblock content %}
